@@ -20,15 +20,19 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET'])
 def api_root(request):
+    import os
+    codespace_name = os.environ.get('CODESPACE_NAME', 'localhost')
+    base_url = f"https://{codespace_name}-8000.app.github.dev/api"
+    endpoints = [
+        f"{base_url}/users/",
+        f"{base_url}/teams/",
+        f"{base_url}/activities/",
+        f"{base_url}/leaderboard/",
+        f"{base_url}/workouts/"
+    ]
     return Response({
         "message": "Bienvenue sur l'API Octofit Tracker!",
-        "endpoints": [
-            "/users/",
-            "/teams/",
-            "/activities/",
-            "/leaderboard/",
-            "/workouts/"
-        ]
+        "endpoints": endpoints
     })
 
 urlpatterns = [
